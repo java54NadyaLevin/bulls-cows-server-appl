@@ -59,16 +59,20 @@ public BullsCowsProtocol(BullsCowsService bullscows) {
 		
 		String resultsString = 
 		results.stream().map(mr -> {
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("sequence", mr.sequence());
-			jsonObject.put("bulls", mr.bulls());
-			jsonObject.put("cows", mr.cows());
-
-			return jsonObject.toString();
+			return resultToString(mr);
 		}).collect(Collectors.joining(";"));
 		
 		
 		return new Response(ResponseCode.OK, "" + resultsString);
+	}
+
+	private String resultToString(MoveResult mr) {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("sequence", mr.sequence());
+		jsonObject.put("bulls", mr.bulls());
+		jsonObject.put("cows", mr.cows());
+
+		return jsonObject.toString();
 	}
 
 	private Response createNewGame(String requestData) {
